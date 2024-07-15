@@ -1,8 +1,14 @@
-import { useState, ChangeEvent } from "react"
+import { useState, ChangeEvent, FormEvent, Dispatch } from "react"
 import { categories } from "../data/categories"
 import { TActivity } from "../types"
+import { TActivityActions } from "../reducers/activity-reducer"
 
-export default function Form() {
+
+type TFormProps = {
+  dispatch: Dispatch<TActivityActions>
+}
+
+export default function Form({ dispatch }: TFormProps) {
   const [activity, setActivity] = useState<TActivity>({
     category: 1,
     name: '',
@@ -22,8 +28,17 @@ export default function Form() {
     return name.trim() !== '' && calories > 0
   }
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    
+    dispatch({type: 'save_activity', payload: { newActivity: activity }})
+  }
+
   return (
-    <form className="space-y-5 bg-white shadow p-10 rounded-lg">
+    <form 
+      className="space-y-5 bg-white shadow p-10 rounded-lg"
+      onSubmit={handleSubmit}
+    >
       <div className="grid grid-cols-1 gap-3">
         <label htmlFor="category" className="font-bold">Categoria:</label>
         <select 
@@ -68,7 +83,7 @@ export default function Form() {
         type="submit"
         className="bg-gray-800 hover:bg-gray-900 w-full p-2 uppercase
         text-white cursor-pointer disabled:opacity-10"
-        value={'Guardar comida o Guardar ejercicio'}
+        value={activity.category === 1 ? 'Guardar Comida' : 'Guardar Ejercicio'}
         disabled={!isValidActivity()}
       />
 
