@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, FormEvent, Dispatch } from "react"
+import {v4 as uuidv4} from "uuid"
 import { categories } from "../data/categories"
 import { TActivity } from "../types"
 import { TActivityActions } from "../reducers/activity-reducer"
@@ -8,12 +9,15 @@ type TFormProps = {
   dispatch: Dispatch<TActivityActions>
 }
 
+const initialState: TActivity = {
+  id: uuidv4(),
+  category: 1,
+  name: '',
+  calories: 0
+}
+
 export default function Form({ dispatch }: TFormProps) {
-  const [activity, setActivity] = useState<TActivity>({
-    category: 1,
-    name: '',
-    calories: 0
-  })
+  const [activity, setActivity] = useState<TActivity>(initialState)
   
   const handleChange = (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
     const isNumberField = ['category', 'calories'].includes(e.target.id)
@@ -32,6 +36,11 @@ export default function Form({ dispatch }: TFormProps) {
     e.preventDefault()
     
     dispatch({type: 'save_activity', payload: { newActivity: activity }})
+
+    setActivity({
+      ...initialState,
+      id: uuidv4()
+    })
   }
 
   return (

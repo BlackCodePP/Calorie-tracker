@@ -4,6 +4,7 @@ export type TCategory = {
 }
 
 export type TActivity = {
+    id: string
     category: number
     name: string
     calories: number
