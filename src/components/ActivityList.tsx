@@ -1,13 +1,16 @@
 import { TActivity } from "../types"
 import { categories } from "../data/categories"
-import { useMemo } from "react"
+import { Dispatch, useMemo } from "react"
+import { PencilSquareIcon } from "@heroicons/react/24/outline"
+import { TActivityActions } from "../reducers/activity-reducer"
 
 type TActivityListProps = {
-    activities: TActivity[]
+    activities: TActivity[],
+    dispatch: Dispatch<TActivityActions>
 }
 
 
-export default function ActivityList({ activities }: TActivityListProps) {
+export default function ActivityList({ activities, dispatch }: TActivityListProps) {
 
     const categoryName = useMemo(() => 
         (category: TActivity['category']) => {
@@ -40,8 +43,14 @@ export default function ActivityList({ activities }: TActivityListProps) {
                     </div>
 
 
-                    <div>
-
+                    <div className="flex gap-5 items-center">
+                        <button 
+                            onClick={() => dispatch({type: 'set_active', payload: {id: activity.id}})}
+                        >
+                            <PencilSquareIcon
+                                className="h-8 w-8 text-gray-800"
+                            />
+                        </button>
                     </div>
                 </div>
             ))}

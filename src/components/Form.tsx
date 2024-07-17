@@ -1,12 +1,13 @@
-import { useState, ChangeEvent, FormEvent, Dispatch } from "react"
+import { useState, ChangeEvent, FormEvent, Dispatch, useEffect } from "react"
 import {v4 as uuidv4} from "uuid"
 import { categories } from "../data/categories"
 import { TActivity } from "../types"
-import { TActivityActions } from "../reducers/activity-reducer"
+import { TActivityActions, TActivityState } from "../reducers/activity-reducer"
 
 
 type TFormProps = {
-  dispatch: Dispatch<TActivityActions>
+  dispatch: Dispatch<TActivityActions>,
+  state: TActivityState
 }
 
 const initialState: TActivity = {
@@ -16,8 +17,15 @@ const initialState: TActivity = {
   calories: 0
 }
 
-export default function Form({ dispatch }: TFormProps) {
+export default function Form({ dispatch, state }: TFormProps) {
   const [activity, setActivity] = useState<TActivity>(initialState)
+
+  useEffect(() => {
+    if(state.activeId) {
+      const selectedActivity = state.activities.filter(stateActivity => stateActivity.id === state.activeId)[0]
+      setActivity(selectedActivity)
+    }
+  }, [state.activeId])
   
   const handleChange = (e: ChangeEvent<HTMLSelectElement> | ChangeEvent<HTMLInputElement>) => {
     const isNumberField = ['category', 'calories'].includes(e.target.id)
