@@ -1,7 +1,7 @@
 import { TActivity } from "../types"
 import { categories } from "../data/categories"
 import { Dispatch, useMemo } from "react"
-import { PencilSquareIcon } from "@heroicons/react/24/outline"
+import { PencilSquareIcon, XCircleIcon } from "@heroicons/react/24/outline"
 import { TActivityActions } from "../reducers/activity-reducer"
 
 type TActivityListProps = {
@@ -49,6 +49,14 @@ export default function ActivityList({ activities, dispatch }: TActivityListProp
                         >
                             <PencilSquareIcon
                                 className="h-8 w-8 text-gray-800"
+                            />
+                        </button>
+
+                        <button 
+                            onClick={() => dispatch({type: 'delete_activity', payload: {id: activity.id}})}
+                        >
+                            <XCircleIcon
+                                className="h-8 w-8 text-red-500"
                             />
                         </button>
                     </div>
