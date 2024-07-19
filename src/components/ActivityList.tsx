@@ -29,7 +29,7 @@ export default function ActivityList({ activities, dispatch }: TActivityListProp
 
             {isEmptyActivities ? <p className="text-center my-5">No hay actividades</p> :
                 activities.map(activity => (
-                <div key={activity.id} className="px-5 py-10 bg-white flex justify-between">
+                <div key={activity.id} className="px-5 py-10 bg-white flex justify-between shadow">
                     <div className="space-y-2 relative">
                         <p 
                             className={`absolute -top-8 -left-8 px-10 py-2

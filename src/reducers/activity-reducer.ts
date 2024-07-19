@@ -3,7 +3,8 @@ import { TActivity } from "../types"
 export type TActivityActions = 
     {type: 'save_activity', payload: {newActivity: TActivity}} |
     {type: 'set_active', payload: {id: TActivity['id']}} |
-    {type: 'delete_activity', payload: {id: TActivity['id']}}
+    {type: 'delete_activity', payload: {id: TActivity['id']}} |
+    {type: 'restart_app'}
 
 
 export type TActivityState = {
@@ -53,6 +54,13 @@ export const activityReducer = (
         return {
             ...state,
             activities: state.activities.filter(activity => activity.id !== action.payload.id)
+        }
+    }
+
+    if(action.type === 'restart_app') {
+        return {
+            activities: [],
+            activeId: ''
         }
     }
 
